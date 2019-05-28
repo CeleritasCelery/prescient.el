@@ -275,7 +275,9 @@ To illustrate, if \"fa\" matches \"find-file-at-point\", then the
 entire match will be the text \"file-at\", and there will be two
 capture groups matching \"f\" and \"a\"."
   (mapconcat (lambda (char)
-               (let ((r (regexp-quote (char-to-string char))))
+               (let ((r (char-to-string char)))
+                 (unless (memq char (list ?^ ?$))
+                   (setq r (regexp-quote r)))
                  (when with-groups
                    (setq r (format "\\(%s\\)" r)))
                  (format "\\b%s\\w*" r)))
